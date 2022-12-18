@@ -9,6 +9,7 @@ library(extrafont)
 library(RColorBrewer)
 library(treemapify)
 library(ggalluvial)
+library(GGally)
 
 #load
 audit_data <- read_csv(here("data/Rapid_Recovery.csv"))

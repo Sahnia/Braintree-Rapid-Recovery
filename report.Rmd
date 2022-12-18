@@ -15,15 +15,15 @@ header-includes:
 - \renewcommand{\footrulewidth}{0.4pt}
 mainfont: Century Gothic
 output:
-  html_document:
-    df_print: paged
-    toc: yes
-    toc_depth: '3'
   pdf_document:
     latex_engine: xelatex
     number_sections: yes
     toc: yes
     toc_depth: 3
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_depth: '3'
   word_document:
     toc: yes
     toc_depth: '3'
@@ -51,7 +51,7 @@ source("source/theme.R")
 
 \definecolor{pqipred}{HTML}{931E2F}
 
-$\color{pqipred}\Huge{\text{Elective Arthroplasty at <br> Braintree Community Hospital}}$ 
+$\color{pqipred}\Huge{\text{Elective Arthroplasty at Braintree Hospital}}$ 
 
 $\color{black}\LARGE{\text{`r format(Sys.Date()," %d %B %Y")`}}$ 
 
@@ -68,14 +68,14 @@ end_date <- format(max(audit_data$datetime_of_surgery, na.rm = TRUE), "%d %B %Y"
 # Introduction
 
 
-This report includes patients who had an elective arthroplasty at Braintree community Hospital. The data for this report was collected by XXXX. The dataset that this report is based on discharged patients who had a procedure  between `r start_date` and  `r end_date`.  This report was produced on: `r format(Sys.time(), "%d %B %Y %H:%M")`.
+This report includes patients who had an elective arthroplasty at Braintree community Hospital. The data for this report was collected by the team at Braintree Community Hospiyal The dataset that this report is based on discharged patients who had a procedure  between `r start_date` and  `r end_date`.  This report was produced on: `r format(Sys.time(), "%d %B %Y %H:%M")`.
 
 
 # Activity
 
 ## Procedures
 
-Between `r start_date` and  `r end_date` `r nrow(audit_data)` patients have had an elective arthroplasty and been discharged from BCH. Below in figure 1 this is shown by month. 
+Between `r start_date` and  `r end_date` `r nrow(audit_data)` patients have had an elective arthroplasty and been discharged from BCH. Below in figure 1 the number of procedures performed is shown by month. 
 
 
 ```{r echo=FALSE, fig.height=3, fig.width=6, message=FALSE, warning=FALSE}
@@ -92,9 +92,11 @@ procedure_bar  + labs(title= "Fig 1: Number of procedures performed at BCH by mo
 
 ```
 
+\pagebreak
 
 ### Breakdown of procedures
 
+ Figure 2 shows the number of and type of procedure being performed by month. 
 
 ```{r echo=FALSE, fig.height=3.5, fig.width=6, message=FALSE, warning=FALSE}
 
@@ -103,12 +105,13 @@ procedure_break  + labs(title= "Fig 2: Number of procedures and type performed a
 
 ```
 
+\pagebreak
 
 # Clinicians
 
 ## Surgeons
 
-Between `r start_date` and  `r end_date` `r nlevels(audit_data$surgeon)` different surgeons performed at least 1 arthoplasty at BCH. The median number of arthroplasties per month was `r median(surgeons$n)`  with an interquartile range of `r IQR(surgeons$n)`. Figure 3 demonstrates the number of procedures performed at BCH per month, each chart represents an individual  surgeon. 
+Between `r start_date` and  `r end_date` `r nlevels(audit_data$surgeon)` different surgeons performed at least 1 arthoplasty at BCH. The median number of arthroplasties pergormed by each surgeon per month was `r median(surgeons$n)`  with an interquartile range of `r IQR(surgeons$n)`. Figure 3 demonstrates the number of procedures performed at BCH per month, each chart represents an individual  surgeon. 
 
 
 
@@ -118,16 +121,19 @@ Surgeon_facet  + labs(title= "Fig 3: Number of procedures performed at BCH per m
 
 ```
 
+\pagebreak
 
 ## Anaesthetists
 
-Between `r start_date` and  `r end_date` `r nlevels(audit_data$anaethetist)` different anaesthetists provided anaesthesia forat least 1 arthoplasty at BCH. The median being number of anaesthetics provided for athroplasties was  `r median(anaes$n)`  per month with an interquartile range of `r IQR(anaes$n)`. Figure 4 demonstrates the number of anaesthetics performed at BCH each chart represents an individual  surgeon. . 
+Between `r start_date` and  `r end_date` `r nlevels(audit_data$anaethetist)` different anaesthetists provided anaesthesia for at least 1 arthoplasty at BCH. The median being number of anaesthetics provided for athroplasties was  `r median(anaes$n)`  per month with an interquartile range of `r IQR(anaes$n)`. Figure 4 demonstrates the number of anaesthetics performed at BCH each chart represents an individual  anaesthetist . 
 
 ```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
 
 anaes_facet  + labs(title= "Fig 4: Number of anaesthetics performed at BCH per month by each anaestist")
 
 ```
+
+\pagebreak
 
 ## Working together
 
@@ -140,6 +146,8 @@ Figure 5 below is a tree map. Each colour represents a different surgeon the siz
 work_tree  + labs(title= "Fig 5: Treemap of working relationships")
 
 ```
+\pagebreak
+
 # Times
  
 ## Time into theatre
@@ -152,8 +160,11 @@ theatre_hist  + labs(title= "Fig 6: Histogram of start time in theatre")
 
 ```
 
+\pagebreak
+
 ## Time back to ward
 
+Figure 7 is a histogram demonstrating the hour at which the patient has returned to the ward.
 
 ```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
 
@@ -161,6 +172,7 @@ ward_hist  + labs(title= "Fig 7: Histogram of time patient returning to ward")
 
 ```
 
+\pagebreak
 
 # Post Operative Course
 
@@ -171,7 +183,7 @@ source("source/dream.R")
 
 ## DrEaMing
 
-A patient is said to be DrEaMing if they are drink, eating and mobilising within 24 hours of surgery. Firstly looking at the constituent parts:
+A patient is said to be DrEaMing if they are drinking, eating and mobilising within 24 hours of surgery. Firstly looking at the constituent parts:
 
 ### Drinking
 
@@ -212,13 +224,31 @@ dream_plot  + labs(title= "Fig 11: Patient DrEaMing status on post operative day
 
 ```
 
-## To DO
-Lollpop times
-Facet wrap histograms of times
+\pagebreak
 
-Pain
+# Pain
 
-Dreaming
+Post operative pain impacts patient recovery and experience. One way to map the changing pain scores through the surgical pathway is using alluvial plots. This needs some further refinement but demonstrates the pain scores at day 0, day 1 and on discharge. 
+
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+
+pain_alluvial
+```
+
+\pagebreak
+
+# Length of Stay
+
+Post operative length of stay has a direct impact on the number of bed days required and therefore the amount of resources need to support the pathway. In the figure below is the median length of stay for each type of arthroplasty by surgeon. 
+
+
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+
+LOS
+```
+
 
 
 # R Markdown

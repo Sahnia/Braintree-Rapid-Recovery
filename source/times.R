@@ -22,3 +22,23 @@ ward_hist <-
   geom_histogram(color="lightblue", fill="#0571b0", binwidth=1, ) +
   theme_PQIP() +
   scale_x_continuous(name = "start hour", breaks=seq(0,21,1))
+
+LOS <- 
+  
+  audit_data %>% 
+  select(surgeon, op_type, los) %>% 
+  group_by(surgeon, op_type) %>% 
+  summarise(median_LOS =median(los, na.rm = TRUE)) %>% 
+  arrange(median_LOS) %>%
+  ggplot( aes(x=surgeon, y=median_LOS)) +
+ # geom_segment( aes(xend=surgeon, yend=0)) +
+#  geom_point( size=4, color="orange") +
+  geom_bar(stat = "identity", fill="#0571b0") +
+   coord_flip() +
+  theme_PQIP() +
+  theme(axis.text.y =element_blank())+
+  facet_wrap(~op_type, scale="fixed") +
+  labs(x = "Surgeon", y = "Median Length of stay") +
+  scale_y_continuous(breaks = seq(0, 4, by = 1))
+
+  

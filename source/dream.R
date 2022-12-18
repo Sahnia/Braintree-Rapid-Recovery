@@ -84,22 +84,19 @@ pain <- audit_data %>%
   
   select(pain_day_0, pain_day_1, pain_severity_on_dc) %>% 
   group_by(pain_day_0, pain_day_1, pain_severity_on_dc) %>% 
-  summarise(n=n())%>% 
+  summarise(n=n()) 
  # mutate(perc=n/sum(n)*100) %>%
   #complete(pain_day_0, pain_day_1, pain_severity_on_dc) %>%
   #mutate(difference = (as.integer(pain_day_0) - as.integer(pain_day_1))) %>%
-  replace_na(., list(perc=0, n=0)) %>%
-  mutate(fill=ifelse(pain_day_1 > pain_day_0, "red", 
-                     ifelse(pain_day_1 == pain_day_0, "orange", "green")))
+  #replace_na(., list(perc=0, n=0)) %>%
+#  mutate(fill=ifelse(pain_day_1 > pain_day_0, "red", 
+ #                    ifelse(pain_day_1 == pain_day_0, "orange", "green")))
 
-is_alluvia_form(as.data.frame(UCBAdmissions), axes = 1:3, silent = TRUE)
-
+pain_alluvial <-
 
 ggplot(pain,
       aes(y = n, axis1 = pain_day_0 , axis2 = pain_day_1 , axis3 =pain_severity_on_dc     )) +
   geom_alluvium(aes(fill = pain_day_0), width = 1/12) +
-  geom_stratum(width = 1/12, fill = "black", color = "grey") +
-  geom_label(stat = "stratum", aes(label = after_stat(stratum))) +
-  scale_x_discrete(limits = c("Gender", "Dept"), expand = c(.05, .05)) +
-  scale_fill_brewer(type = "qual", palette = "Set1") +
-  ggtitle("UC Berkeley admissions and rejections, by sex and department")
+  geom_stratum(width = 1/4, reverse = TRUE, color = "grey" ) +
+  geom_label(stat = "stratum", aes(label = after_stat(stratum))) 
+  
