@@ -1,0 +1,227 @@
+---
+fontsize: 10pt
+header-includes:
+- \usepackage{booktabs,calc}
+- \usepackage{lmodern}
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \usepackage{multirow}
+- \usepackage{xcolor}
+- \renewcommand{\contentsname}{Table of Contents}
+- \usepackage{graphicx}
+- \setlength\headheight{28pt}
+- \fancyfoot[LE,RO]{\thepage}
+- \renewcommand{\headrulewidth}{0.4pt}
+- \renewcommand{\footrulewidth}{0.4pt}
+mainfont: Century Gothic
+output:
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_depth: '3'
+  pdf_document:
+    latex_engine: xelatex
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+  word_document:
+    toc: yes
+    toc_depth: '3'
+papersize: a4
+geometry: "left=1cm,right=1cm,top=2cm,bottom=2.5cm"
+always_allow_html: true
+---
+
+```{r setup, warning=FALSE, message=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE, fig.pos= "h", dpi=300, warning=FALSE, message=FALSE, fig.height=3.5, fig.width=7, fig.align='centre')
+
+library(here)
+library(knitr)
+set_here()
+
+source("source/clean.R")
+source("source/theme.R")
+```
+
+\pagebreak
+
+
+
+\begin {center}
+
+\definecolor{pqipred}{HTML}{931E2F}
+
+$\color{pqipred}\Huge{\text{Elective Arthroplasty at <br> Braintree Community Hospital}}$ 
+
+$\color{black}\LARGE{\text{`r format(Sys.Date()," %d %B %Y")`}}$ 
+
+\end {center}
+
+
+```{r introduction, message=FALSE, warning=FALSE, include=FALSE}
+start_date <- format(min(audit_data$datetime_of_surgery, na.rm = TRUE), "%d %B %Y")
+end_date <- format(max(audit_data$datetime_of_surgery, na.rm = TRUE), "%d %B %Y")
+
+```
+
+
+# Introduction
+
+
+This report includes patients who had an elective arthroplasty at Braintree community Hospital. The data for this report was collected by XXXX. The dataset that this report is based on discharged patients who had a procedure  between `r start_date` and  `r end_date`.  This report was produced on: `r format(Sys.time(), "%d %B %Y %H:%M")`.
+
+
+# Activity
+
+## Procedures
+
+Between `r start_date` and  `r end_date` `r nrow(audit_data)` patients have had an elective arthroplasty and been discharged from BCH. Below in figure 1 this is shown by month. 
+
+
+```{r echo=FALSE, fig.height=3, fig.width=6, message=FALSE, warning=FALSE}
+
+source("source/procedures.R")
+
+```
+
+
+```{r echo=FALSE, fig.height=3.5, fig.width=6, message=FALSE, warning=FALSE}
+
+
+procedure_bar  + labs(title= "Fig 1: Number of procedures performed at BCH by month.")
+
+```
+
+
+### Breakdown of procedures
+
+
+```{r echo=FALSE, fig.height=3.5, fig.width=6, message=FALSE, warning=FALSE}
+
+
+procedure_break  + labs(title= "Fig 2: Number of procedures and type performed at BCH by month.")
+
+```
+
+
+# Clinicians
+
+## Surgeons
+
+Between `r start_date` and  `r end_date` `r nlevels(audit_data$surgeon)` different surgeons performed at least 1 arthoplasty at BCH. The median number of arthroplasties per month was `r median(surgeons$n)`  with an interquartile range of `r IQR(surgeons$n)`. Figure 3 demonstrates the number of procedures performed at BCH per month, each chart represents an individual  surgeon. 
+
+
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+
+Surgeon_facet  + labs(title= "Fig 3: Number of procedures performed at BCH per month by surgeon")
+
+```
+
+
+## Anaesthetists
+
+Between `r start_date` and  `r end_date` `r nlevels(audit_data$anaethetist)` different anaesthetists provided anaesthesia forat least 1 arthoplasty at BCH. The median being number of anaesthetics provided for athroplasties was  `r median(anaes$n)`  per month with an interquartile range of `r IQR(anaes$n)`. Figure 4 demonstrates the number of anaesthetics performed at BCH each chart represents an individual  surgeon. . 
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+
+anaes_facet  + labs(title= "Fig 4: Number of anaesthetics performed at BCH per month by each anaestist")
+
+```
+
+## Working together
+
+Figure 5 below is a tree map. Each colour represents a different surgeon the size of the rectangle represents the number of arthroplasties performed by each one. The subdivision of each rectangle represents each anaesthetist they have worked with. The size of the sub division represents the number of arthroplasties performed by them together. Overall the tree map demonstrates the number of anaesthetists each surgeon has worked and the number of arthroplasties they have performed together as a team. 
+
+
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+
+work_tree  + labs(title= "Fig 5: Treemap of working relationships")
+
+```
+# Times
+ 
+## Time into theatre
+ 
+Figure 6 below is a histogram of the hour during which the patient arrived in theatre.   
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+source("source/times.R")
+theatre_hist  + labs(title= "Fig 6: Histogram of start time in theatre")
+
+```
+
+## Time back to ward
+
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+
+ward_hist  + labs(title= "Fig 7: Histogram of time patient returning to ward")
+
+```
+
+
+# Post Operative Course
+
+
+```{r fig.height=6, fig.width=6, message=FALSE, warning=FALSE, include=FALSE}
+source("source/dream.R")
+```
+
+## DrEaMing
+
+A patient is said to be DrEaMing if they are drink, eating and mobilising within 24 hours of surgery. Firstly looking at the constituent parts:
+
+### Drinking
+
+On post operative day 1 there was drinking data available for `r sum(drinking$n)` patients. Overall `r perc_drink` % of patients were drinking on post operative day 1. Figure 8 below demonstrates the number of patients drinking and not drinking on post operative day 1, by month of surgery. 
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+
+drink_plot  + labs(title= "Fig 8: Patient drinking status on post operative day 1")
+
+```
+### Eating
+
+On post operative day 1 there was eating data available for `r sum(eating$n)` patients. Overall `r perc_eat` % of patients were eating on post operative day 1. Figure 9 below demonstrates the number of patients eating and those that were not  on post operative day 1, by month of surgery. 
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+
+eat_plot  + labs(title= "Fig 9: Patient eating status on post operative day 1")
+
+```
+
+### Mobilising
+
+On post operative day 1 there was data on mobilisation available for `r sum(mobilising$n)` patients. Overall `r perc_mobile` % of patients were mobilising on post operative day 1. Figure 10 below demonstrates the number of patients mobilising and those that were not on post operative day 1, by month of surgery. 
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+
+mobile_plot  + labs(title= "Fig 10: Patient mobilisation status on post operative day 1")
+
+```
+
+### DrEaMing
+
+Drinking, eating and mobilising (DrEaMing) within 24 hours of surgery has been associated with reduced length of stay for certain surgical specialities. `r perc_dream`% of patients were DrEaMing at 24 hours. Figure 11 below demonstrates the number of patients DrEaMing and those that were not on post operative day 1, by month of surgery.  
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+
+dream_plot  + labs(title= "Fig 11: Patient DrEaMing status on post operative day 1")
+
+```
+
+## To DO
+Lollpop times
+Facet wrap histograms of times
+
+Pain
+
+Dreaming
+
+
+# R Markdown
+
+This report was produced using R Markdown. Markdown is a simple formatting syntax for authoring HTML, PDF, and Power point documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>. 
+
