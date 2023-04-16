@@ -105,7 +105,8 @@ ggplot(surgeons, aes(x=procedure_month, y=n, group=surgeon, fill=surgeon)) +
 work <- 
   audit_data %>% 
   group_by(surgeon, anaethetist) %>% 
-  summarise(n=n())
+  summarise(n=n())%>% 
+  filter(!is.na(surgeon))
   
  work_tree <-  ggplot(work, aes(area = n, fill = surgeon, label = surgeon,
                   subgroup = surgeon, subgroup2 = anaethetist)) +
