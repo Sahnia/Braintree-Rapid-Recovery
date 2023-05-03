@@ -240,7 +240,7 @@ pain_alluvial
 
 # Length of Stay
 
-Post operative length of stay has a direct impact on the number of bed days required and therefore the amount of resources need to support the pathway. In the figure below is the median length of stay for each type of arthroplasty by surgeon. 
+Post operative length of stay has a direct impact on the number of bed days required and therefore the amount of resources need to support the pathway. In the figure below is the median length of stay for each type of arthroplasty by surgeon. The labels show the number of patients who had that type of procedure by each surgeon
 
 
 
@@ -249,6 +249,15 @@ Post operative length of stay has a direct impact on the number of bed days requ
 LOS
 ```
 
+## Length of stay by anaesthetist
+
+The figure below is the median length of stay for each type of arthroplasty by anaesthetist The labels show the number of patients who had that type of procedure by each individual
+
+
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+LOS_anaes
+```
 
 
 # R Markdown

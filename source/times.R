@@ -43,4 +43,23 @@ LOS <-
   geom_text(aes(label = n), size=3,hjust=1.5, colour = "white") +
   coord_flip() 
 
+
+LOS_anaes <- 
+  
+  audit_data %>% 
+  select(anaethetist, op_type, los) %>% 
+  group_by(anaethetist, op_type) %>% 
+  summarise(n=n(),
+            median_LOS = median(los, na.rm = TRUE)) %>% 
+  arrange(median_LOS) %>%
+  ggplot( aes(x=anaethetist, y=median_LOS)) +
+   geom_bar(stat = "identity", fill="#0571b0") +
+  theme_PQIP() +
+  theme(axis.text.y =element_blank())+
+  facet_wrap(~op_type, scale="fixed") +
+  labs(x = "Anaesthetist", y = "Median Length of stay (days),  Labels = number of patients") +
+  scale_y_continuous(breaks = seq(0, 4, by = 1))+
+  geom_text(aes(label = n), size=3,hjust=1.5, colour = "white") +
+  coord_flip() 
+
   
