@@ -28,17 +28,19 @@ LOS <-
   audit_data %>% 
   select(surgeon, op_type, los) %>% 
   group_by(surgeon, op_type) %>% 
-  summarise(median_LOS =median(los, na.rm = TRUE)) %>% 
+  summarise(n=n(),
+            median_LOS = median(los, na.rm = TRUE)) %>% 
   arrange(median_LOS) %>%
   ggplot( aes(x=surgeon, y=median_LOS)) +
  # geom_segment( aes(xend=surgeon, yend=0)) +
 #  geom_point( size=4, color="orange") +
   geom_bar(stat = "identity", fill="#0571b0") +
-   coord_flip() +
   theme_PQIP() +
   theme(axis.text.y =element_blank())+
   facet_wrap(~op_type, scale="fixed") +
-  labs(x = "Surgeon", y = "Median Length of stay") +
-  scale_y_continuous(breaks = seq(0, 4, by = 1))
+  labs(x = "Surgeon", y = "Median Length of stay (days),  Labels = number of patients") +
+  scale_y_continuous(breaks = seq(0, 4, by = 1))+
+  geom_text(aes(label = n), size=3,hjust=1.5, colour = "white") +
+  coord_flip() 
 
   
