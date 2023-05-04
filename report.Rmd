@@ -13,7 +13,7 @@ header-includes:
 - \fancyfoot[LE,RO]{\thepage}
 - \renewcommand{\headrulewidth}{0.4pt}
 - \renewcommand{\footrulewidth}{0.4pt}
-mainfont: Century Gothic
+mainfont: 
 output:
   pdf_document:
     latex_engine: xelatex
