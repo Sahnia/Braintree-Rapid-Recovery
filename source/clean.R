@@ -23,21 +23,21 @@ audit_data <- clean_names(audit_data)
 
 #remove ?
 audit_data$mob_time_24h <- str_remove(audit_data$mob_time_24h, pattern = "\\?")
-audit_data$mob_time_24h_2 <- str_remove(audit_data$mob_time_24h_2, pattern = "\\?")
+#audit_data$mob_time_24h_2 <- str_remove(audit_data$mob_time_24h_2, pattern = "\\?")
 
 
 audit_data <- audit_data %>% 
   mutate(surgeon = as.factor(surgeon)) %>%
-  mutate(anaethetist = as.factor(anaethetist)) %>%
-  mutate(l_or_r = factor(l_or_r)) %>%
-  mutate(op_type = factor(op_type)) %>% 
+  mutate(anaethetist = as.factor(anaesthetist)) %>%
+  mutate(side = factor(side)) %>%
+  mutate(op_type = factor(operation_type)) %>% 
   #mutate(date_of_surgery = as.Date(dmy(date_of_surgery))) %>% 
   #mutate(time_to_theatre = strftime(time_to_theatre, format = "%H:%M:%OS", tz = "GMT")) %>% 
   #mutate(time_on_ward = strftime(time_on_ward, format = "%H:%M:%OS", tz = "GMT")) %>% 
-  mutate(day1_eating = ifelse(day1_eating %in% c("Yes"), TRUE, FALSE)) %>% 
-  mutate(day1_drinking = ifelse(day1_drinking %in% c("Yes"), TRUE, FALSE)) %>% 
-  mutate(day1_mobilising = ifelse(day1_mobilising %in% c("Yes"), TRUE, FALSE)) %>% 
-  mutate(eras_protocol = ifelse(eras_protocol %in% c("Yes"), TRUE, FALSE)) %>% 
+  #mutate(eating_on_day_1 = ifelse(eating_on_day_1 %in% c("Yes"), TRUE, FALSE)) %>% 
+  #mutate(drinking_on_day_1 = ifelse(drinking_on_day_1 %in% c("Yes"), TRUE, FALSE)) %>% 
+  #mutate(mobilising_on_day_1 = ifelse(mobilising_on_day_1 %in% c("Yes"), TRUE, FALSE)) %>% 
+  #mutate(eras_protocol = ifelse(eras_protocol %in% c("Yes"), TRUE, FALSE)) %>% 
   mutate(pain_day_0 = factor(pain_day_0, 
                              levels = c("None", "Mild", "Moderate", "Severe"),
                              ordered=TRUE)) %>% 
@@ -50,16 +50,16 @@ audit_data <- audit_data %>%
   #mutate(mob_time_24h = str_replace_all(mob_time_24h, "?", "")) %>% 
   mutate(mob_time_24h = na_if(mob_time_24h,"")) %>% 
   #mutate(mob_time_24h = strftime(mob_time_24h, format = "%H:%M:%OS", tz = "GMT")) %>% 
-  mutate(mob_by = factor(mob_by)) %>% 
+  #mutate(mob_by = factor(mob_by)) %>% 
   mutate(pain_day_1 = factor(pain_day_1, 
                              levels = c("None", "Mild", "Moderate", "Severe"),
                              ordered=TRUE)) %>% 
-  mutate(pain_day_1 = factor(pain_day_1, 
+  mutate(pain_activity_day_1 = factor(pain_activity_day_1, 
                              levels = c("None", "Mild", "Moderate", "Severe"),
                              ordered=TRUE)) %>% 
   mutate(n_v_day_1 = ifelse(n_v_day_1 %in% c("Yes"), TRUE, FALSE)) %>%
   mutate(anti_emetic2 = ifelse(anti_emetic2 %in% c("Yes"), TRUE, FALSE)) %>%
-  mutate(day_1_mob = ifelse(day_1_mob %in% c("Yes"), TRUE, FALSE)) %>%
+  #mutate(day_1_mob = ifelse(day_1_mob %in% c("Yes"), TRUE, FALSE)) %>%
  # mutate(mob_time_24h_3 = strftime(mob_time_24h_3, format = "%H:%M:%OS", tz = "GMT")) %>% 
   #mutate(date_1st_therapy_mob = as.Date(dmy(date_1st_therapy_mob))) %>% 
   #mutate(time_1st_therapy_mob = strftime(time_1st_therapy_mob, format = "%H:%M:%OS", tz = "GMT")) %>% 
@@ -84,16 +84,16 @@ audit_data <- audit_data %>%
 #sort out date and times, remerge 
 
 audit_data <-audit_data %>% 
-  mutate(datetime_of_surgery = dmy_hms((str_c(date_of_surgery," ",time_to_theatre)), tz = "GMT")) %>%
+  mutate(datetime_of_surgery = dmy_hms((str_c(date_of_surgery," ",time_in_theatre)), tz = "GMT")) %>%
   mutate(datetime_on_ward = dmy_hms((str_c(date_of_surgery," ",time_on_ward)), tz = "GMT")) %>%
   mutate(datetime_1st_therapy_mob = dmy_hms((str_c(date_1st_therapy_mob," ",time_1st_therapy_mob)), tz = "GMT")) %>%
   mutate(datetime_discharge_therapy = dmy_hms((str_c(date_discharge_from_therapy," ",time_discharge_from_therapy)), tz = "GMT")) %>%
   mutate(datetime_of_xray = dmy_hms((str_c(date_x_ray," ",time_x_ray)), tz = "GMT")) %>%
   mutate(datetime_tta = dmy_hms((str_c(date_tta_ready," ",time_tta_ready)), tz = "GMT")) %>%
-  mutate(datetime_of_discharge = dmy_hms((str_c(date_pt_left_ward," ",time_pt_left_ward)), tz = "GMT")) %>% 
+  mutate(datetime_of_discharge = dmy_hms((str_c(date_pt_left_ward, " ", time_tta_ready)), tz = "GMT")) %>% 
   mutate(los = difftime(datetime_of_discharge, datetime_of_surgery, units = "days")) %>% 
-  mutate(mob_time_24h = as_hms(mob_time_24h)) %>% 
-  mutate(mob_time_24h_2 = as_hms(mob_time_24h_2))
+  mutate(mob_time_24h = as_hms(mob_time_24h))
+  #mutate(mob_time_24h_2 = as_hms(mob_time_24h_2))
   
 
 # Generate month year

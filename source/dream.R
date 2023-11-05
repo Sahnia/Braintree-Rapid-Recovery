@@ -1,20 +1,20 @@
 dreaming <-
   audit_data %>% 
-  select(day1_drinking, day1_eating, day1_mobilising, op_type, procedure_month) %>% 
-  mutate(dream = ifelse(day1_drinking == TRUE & day1_eating == TRUE & day1_mobilising == TRUE, TRUE, FALSE)) 
+  select(drinking_on_day_1, eating_on_day_1, mobilising_on_day_1, op_type, procedure_month) %>% 
+  mutate(dream = ifelse(drinking_on_day_1 == TRUE & eating_on_day_1 == TRUE & mobilising_on_day_1 == TRUE, TRUE, FALSE)) 
 
-perc_drink <- signif(sum(dreaming$day1_drinking)/nrow(dreaming)*100,  digits = 3)
-perc_eat <-  signif(sum(dreaming$day1_eating)/nrow(dreaming)*100,  digits = 3)
-perc_mobile <- signif(sum(dreaming$day1_mobilising)/nrow(dreaming)*100,  digits = 3)
+perc_drink <- signif(sum(dreaming$drinking_on_day_1)/nrow(dreaming)*100,  digits = 3)
+perc_eat <-  signif(sum(dreaming$eating_on_day_1)/nrow(dreaming)*100,  digits = 3)
+perc_mobile <- signif(sum(dreaming$mobilising_on_day_1)/nrow(dreaming)*100,  digits = 3)
 perc_dream <- signif(sum(dreaming$dream)/nrow(dreaming)*100,  digits = 3)
 
 drinking <- dreaming %>% 
-  group_by(procedure_month, day1_drinking) %>% 
+  group_by(procedure_month, drinking_on_day_1) %>% 
   summarise(n=n()) %>% 
   mutate(Perc = n/sum(n)*100) 
 
 drink_plot <-
-  ggplot(drinking, aes(x=as.Date(procedure_month), y=n, fill= day1_drinking))+
+  ggplot(drinking, aes(x=as.Date(procedure_month), y=n, fill= drinking_on_day_1))+
   geom_bar(stat="identity") +
   theme_PQIP_legend() + 
   scale_x_date(labels = date_format("%b %Y"), breaks = date_breaks("1 month")) + 
@@ -25,12 +25,12 @@ drink_plot <-
   labs(x=NULL) 
 
 eating <- dreaming %>% 
-  group_by(procedure_month, day1_eating) %>% 
+  group_by(procedure_month, eating_on_day_1) %>% 
   summarise(n=n()) %>% 
   mutate(Perc = n/sum(n)*100) 
 
 eat_plot <-
-  ggplot(eating, aes(x=as.Date(procedure_month), y=n, fill= day1_eating))+
+  ggplot(eating, aes(x=as.Date(procedure_month), y=n, fill= eating_on_day_1))+
   geom_bar(stat="identity") +
   theme_PQIP_legend() + 
   scale_x_date(labels = date_format("%b %Y"), breaks = date_breaks("1 month")) + 
@@ -42,13 +42,13 @@ eat_plot <-
 
 
 mobilising <- dreaming %>% 
-  group_by(procedure_month, day1_mobilising) %>% 
+  group_by(procedure_month, mobilising_on_day_1) %>% 
   summarise(n=n()) %>% 
   mutate(Perc = n/sum(n)*100)
 
 
 mobile_plot <-
-  ggplot(mobilising, aes(x=as.Date(procedure_month), y=n, fill= day1_mobilising))+
+  ggplot(mobilising, aes(x=as.Date(procedure_month), y=n, fill= mobilising_on_day_1))+
   geom_bar(stat="identity") +
   theme_PQIP_legend() + 
   scale_x_date(labels = date_format("%b %Y"), breaks = date_breaks("1 month")) + 
