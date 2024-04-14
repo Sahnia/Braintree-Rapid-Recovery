@@ -65,14 +65,14 @@ anaes <- audit_data %>%
 
 anaes_facet <-
   ggplot(anaes, aes(x=procedure_month, y=n, group=anaethetist, fill=anaethetist)) + 
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", width = 20) +
   facet_wrap(~anaethetist, scale="fixed") +
   theme_PQIP() +
   theme(panel.margin=unit(.05, "lines"),
         panel.border = element_rect(color = "black", fill = NA, size = 0.5), 
         strip.background = element_rect(color = "black", size = 0.5),
         strip.text.x = element_blank()) +
-  scale_x_date(labels = date_format("%b %Y"), breaks = date_breaks("1 month")) +
+  scale_x_date(labels = date_format("%b %Y"), breaks = date_breaks("3 month")) +
   labs(x = "Month", y = "Number of anaesthetics performed")
 
 surgeons <-
@@ -91,14 +91,14 @@ surgeons <-
 
 Surgeon_facet <-
 ggplot(surgeons, aes(x=procedure_month, y=n, group=surgeon, fill=surgeon)) + 
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", width = 20) +
   facet_wrap(~surgeon, scale="fixed") +
   theme_PQIP() +
   theme(panel.margin=unit(.05, "lines"),
         panel.border = element_rect(color = "black", fill = NA, size = 0.5), 
         strip.background = element_rect(color = "black", size = 0.5),
         strip.text.x = element_blank()) +
-  scale_x_date(labels = date_format("%b %Y"), breaks = date_breaks("1 month")) +
+  scale_x_date(labels = date_format("%b %Y"), breaks = date_breaks("3 month")) +
   labs(x = "Month", y = "Number of procedures performed")
   
 
@@ -106,7 +106,7 @@ work <-
   audit_data %>% 
   group_by(surgeon, anaethetist) %>% 
   summarise(n=n())%>% 
-  filter(!is.na(surgeon))
+  drop_na()
   
  work_tree <-  ggplot(work, aes(area = n, fill = surgeon, label = surgeon,
                   subgroup = surgeon, subgroup2 = anaethetist)) +
