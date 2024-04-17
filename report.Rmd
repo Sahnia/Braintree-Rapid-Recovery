@@ -13,20 +13,20 @@ header-includes:
 - \fancyfoot[LE,RO]{\thepage}
 - \renewcommand{\headrulewidth}{0.4pt}
 - \renewcommand{\footrulewidth}{0.4pt}
-mainfont: Century Gothic
+mainfont: Crimson
 output:
+  word_document:
+    toc: yes
+    toc_depth: '3'
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_depth: '3'
   pdf_document:
     latex_engine: xelatex
     number_sections: yes
     toc: yes
     toc_depth: 3
-  html_document:
-    df_print: paged
-    toc: yes
-    toc_depth: '3'
-  word_document:
-    toc: yes
-    toc_depth: '3'
 papersize: a4
 geometry: "left=1cm,right=1cm,top=2cm,bottom=2.5cm"
 always_allow_html: true
@@ -187,16 +187,17 @@ A patient is said to be DrEaMing if they are drinking, eating and mobilising wit
 
 ### Drinking
 
-On post operative day 1 there was drinking data available for `r sum(drinking$n)` patients. Overall `r perc_drink` % of patients were drinking on post operative day 1. Figure 8 below demonstrates the number of patients drinking and not drinking on post operative day 1, by month of surgery. 
+On post operative day 1 there was drinking data available for `r sum(drinking$n)` patients. Overall `r perc_drink` % of patients were drinking on post operative day 1. Figure 8 below demonstrates the number of patients drinking and not drinking on post operative day 1, by month of surgery. (NB there was a change of data collection form in September and October that removed 'drinking' as an individual parameter. As such no data is available for these months. This resulted in all patients being recorded as not drinking)
 
 ```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
 
 drink_plot  + labs(title= "Fig 8: Patient drinking status on post operative day 1")
 
 ```
+
 ### Eating
 
-On post operative day 1 there was eating data available for `r sum(eating$n)` patients. Overall `r perc_eat` % of patients were eating on post operative day 1. Figure 9 below demonstrates the number of patients eating and those that were not  on post operative day 1, by month of surgery. 
+On post operative day 1 there was eating data available for `r sum(eating$n)` patients. Overall `r perc_eat` % of patients were eating on post operative day 1. Figure 9 below demonstrates the number of patients eating and those that were not  on post operative day 1, by month of surgery. (NB there was a change of data collection form in September and October that removed 'eating' as an individual parameter. As such no data is available for these months. This resulted in all patients being recorded as not eating)
 
 ```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
 
@@ -216,7 +217,7 @@ mobile_plot  + labs(title= "Fig 10: Patient mobilisation status on post operativ
 
 ### DrEaMing
 
-Drinking, eating and mobilising (DrEaMing) within 24 hours of surgery has been associated with reduced length of stay for certain surgical specialities. `r perc_dream`% of patients were DrEaMing at 24 hours. Figure 11 below demonstrates the number of patients DrEaMing and those that were not on post operative day 1, by month of surgery.  
+Drinking, eating and mobilising (DrEaMing) within 24 hours of surgery has been associated with reduced length of stay for certain surgical specialities. `r perc_dream`% of patients were DrEaMing at 24 hours. Figure 11 below demonstrates the number of patients DrEaMing and those that were not on post operative day 1, by month of surgery. (NB as noted above to be 'DrEaMing' a patient must be drinking, eating and mobilising on day 1 post operation. No data is available for drinking and eating for September and October. The result is that no patient, for these 2 months, can be DrEaMing. The LoS for these months did not change. This is a data collection issue rather than a reflection of a change to the established patient pathway.)
 
 ```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
 
@@ -228,7 +229,7 @@ dream_plot  + labs(title= "Fig 11: Patient DrEaMing status on post operative day
 
 # Pain
 
-Post operative pain impacts patient recovery and experience. One way to map the changing pain scores through the surgical pathway is using alluvial plots. This needs some further refinement but demonstrates the pain scores at day 0, day 1 and on discharge. 
+Post operative pain impacts patient recovery and experience. One way to map the changing pain scores through the surgical pathway is using alluvial plots. The chart below demonstrates how the pain experienced by patients changes over time from day 0 through to that at discharge. This chart is populated only with the data of those patients who have pain scores at all 3 time points. 
 
 
 ```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
