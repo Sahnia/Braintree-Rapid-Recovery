@@ -83,6 +83,7 @@ ggplot(dreaming, aes(x=as.Date(procedure_month), y=n, fill= dream))+
 pain <- audit_data %>% 
   
   select(pain_day_0, pain_day_1, pain_severity_on_dc) %>% 
+  filter(complete.cases(.)) %>% 
   group_by(pain_day_0, pain_day_1, pain_severity_on_dc) %>% 
   summarise(n=n()) 
  # mutate(perc=n/sum(n)*100) %>%
@@ -94,9 +95,14 @@ pain <- audit_data %>%
 
 pain_alluvial <-
 
-ggplot(pain,
-      aes(y = n, axis1 = pain_day_0 , axis2 = pain_day_1 , axis3 =pain_severity_on_dc     )) +
+
+ggplot(pain, aes(y = n, axis1 = pain_day_0 , axis2 = pain_day_1 , axis3 =pain_severity_on_dc)) +
   geom_alluvium(aes(fill = pain_day_0), width = 1/12) +
   geom_stratum(width = 1/4, reverse = TRUE, color = "grey" ) +
-  geom_label(stat = "stratum", aes(label = after_stat(stratum))) 
-  
+  geom_label(stat = "stratum", aes(label = after_stat(stratum)))+
+  geom_text(aes(x = 1, y = -10, label = "Day 0"), color = "black", size = 3) +  # Label for Axis 1 (adjust position as needed)
+  geom_text(aes(x = 2, y = -10, label = "Day 1"), color = "black", size = 3) +  # Label for Axis 2 (adjust position as needed)
+  geom_text(aes(x = 3, y = -10, label = "At discharge"), color = "black", size = 3) +  # Label for Axis 3 (adjust position as needed)
+  guides(fill=guide_legend(title="Pain on Day 0"))+
+  labs(x = "Post operative day", y = "Number of patients") +
+  scale_x_discrete(labels = c("Pre-operative", "Day 0", "Day 1"))
