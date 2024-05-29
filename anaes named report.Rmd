@@ -64,19 +64,11 @@ end_date <- format(max(audit_data$datetime_of_surgery, na.rm = TRUE), "%d %B %Y"
 
 ```
 
-
 # Introduction
 
+This report includes patients who had an elective arthroplasty at Braintree community Hospital. The data for this report was collected by the team at Braintree Community Hospiyal The dataset that this report is based on the `r nrow(audit_data)` discharged patients who had a procedure  between `r start_date` and  `r end_date`. 
 
-This report includes patients who had an elective arthroplasty at Braintree community Hospital. The data for this report was collected by the team at Braintree Community Hospiyal The dataset that this report is based on discharged patients who had a procedure  between `r start_date` and  `r end_date`.  This report was produced on: `r format(Sys.time(), "%d %B %Y %H:%M")`.
-
-
-# Activity
-
-## Procedures
-
-Between `r start_date` and  `r end_date` `r nrow(audit_data)` patients have had an elective arthroplasty and been discharged from BCH. Below in figure 1 the number of procedures performed is shown by month. 
-
+This report was produced on: `r format(Sys.time(), "%d %B %Y %H:%M")`.
 
 ```{r echo=FALSE, fig.height=3, fig.width=6, message=FALSE, warning=FALSE}
 
@@ -84,179 +76,39 @@ source("source/procedures.R")
 
 ```
 
-
-```{r echo=FALSE, fig.height=3.5, fig.width=6, message=FALSE, warning=FALSE}
-
-
-procedure_bar  + labs(title= "Fig 1: Number of procedures performed at BCH by month.")
-
-```
-
-\pagebreak
-
-### Breakdown of procedures
-
- Figure 2 shows the number of and type of procedure being performed by month. 
-
-```{r echo=FALSE, fig.height=3.5, fig.width=6, message=FALSE, warning=FALSE}
-
-
-procedure_break  + labs(title= "Fig 2: Number of procedures and type performed at BCH by month.")
-
-```
-
-\pagebreak
-
-# Clinicians
-
-## Surgeons
-
-Between `r start_date` and  `r end_date` `r nlevels(audit_data$surgeon)` different surgeons performed at least 1 arthoplasty at BCH. The median number of arthroplasties pergormed by each surgeon per month was `r median(surgeons$n)`  with an interquartile range of `r IQR(surgeons$n)`. Figure 3 demonstrates the number of procedures performed at BCH per month, each chart represents an individual  surgeon. 
-
-
-
-```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
-
-Surgeon_facet  + labs(title= "Fig 3: Number of procedures performed at BCH per month by surgeon")
-
-```
-
-\pagebreak
-
 ## Anaesthetists
 
-Between `r start_date` and  `r end_date` `r nlevels(audit_data$anaethetist)` different anaesthetists provided anaesthesia for at least 1 arthoplasty at BCH. The median being number of anaesthetics provided for athroplasties was  `r median(anaes$n)`  per month with an interquartile range of `r IQR(anaes$n)`. Figure 4 demonstrates the number of anaesthetics performed at BCH each chart represents an individual  anaesthetist . 
+Between `r start_date` and  `r end_date` `r nlevels(audit_data$anaethetist)` different anaesthetists provided anaesthesia for at least 1 arthoplasty at BCH. The median being number of anaesthetics provided for athroplasties was  `r median(anaes$n)`  per month with an interquartile range of `r IQR(anaes$n)`. Figure 1 demonstrates the number of anaesthetics performed at BCH each chart represents an individual  anaesthetist . 
 
 ```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
 
-named_anaes_facet + labs(title= "Fig 4: Number of anaesthetics performed at BCH per month by each anaestist")
+named_anaes_facet + labs(title= "Fig 1: Number of anaesthetics performed at BCH per month by each anaestist")
 
 ```
-
-\pagebreak
 
 ## Working together
 
-Figure 5 below is a tree map. Each colour represents a different surgeon the size of the rectangle represents the number of arthroplasties performed by each one. The subdivision of each rectangle represents each anaesthetist they have worked with. The size of the sub division represents the number of arthroplasties performed by them together. Overall the tree map demonstrates the number of anaesthetists each surgeon has worked and the number of arthroplasties they have performed together as a team. 
+Figure 2 below is a tree map. Each colour represents a different surgeon the size of the rectangle represents the number of arthroplasties performed by each one. The subdivision of each rectangle represents each anaesthetist they have worked with. The size of the sub division represents the number of arthroplasties performed by them together. Overall the tree map demonstrates the number of anaesthetists each surgeon has worked and the number of arthroplasties they have performed together as a team. 
 
 
-
-```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
-
-named_anaes_work_tree + labs(title= "Fig 5: Treemap of working relationships")
-
-```
-\pagebreak
-
-# Times
- 
-## Time into theatre
- 
-Figure 6 below is a histogram of the hour during which the patient arrived in theatre.   
 
 ```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
 source("source/times.R")
-theatre_hist  + labs(title= "Fig 6: Histogram of start time in theatre")
+named_anaes_work_tree + labs(title= "Fig 2: Treemap of working relationships")
 
 ```
 
-\pagebreak
-
-## Time back to ward
-
-Figure 7 is a histogram demonstrating the hour at which the patient has returned to the ward.
-
-```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
-
-ward_hist  + labs(title= "Fig 7: Histogram of time patient returning to ward")
-
-```
-
-\pagebreak
-
-# Post Operative Course
-
-
-```{r fig.height=6, fig.width=6, message=FALSE, warning=FALSE, include=FALSE}
-source("source/dream.R")
-```
-
-## DrEaMing
-
-A patient is said to be DrEaMing if they are drinking, eating and mobilising within 24 hours of surgery. Firstly looking at the constituent parts:
-
-### Drinking
-
-On post operative day 1 there was drinking data available for `r sum(drinking$n)` patients. Overall `r perc_drink` % of patients were drinking on post operative day 1. Figure 8 below demonstrates the number of patients drinking and not drinking on post operative day 1, by month of surgery. (NB there was a change of data collection form in September and October that removed 'drinking' as an individual parameter. As such no data is available for these months. This resulted in all patients being recorded as not drinking)
-
-```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
-
-drink_plot  + labs(title= "Fig 8: Patient drinking status on post operative day 1")
-
-```
-
-### Eating
-
-On post operative day 1 there was eating data available for `r sum(eating$n)` patients. Overall `r perc_eat` % of patients were eating on post operative day 1. Figure 9 below demonstrates the number of patients eating and those that were not  on post operative day 1, by month of surgery. (NB there was a change of data collection form in September and October that removed 'eating' as an individual parameter. As such no data is available for these months. This resulted in all patients being recorded as not eating). The colour grey represents where there is missing data. 
-
-```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
-
-eat_plot  + labs(title= "Fig 9: Patient eating status on post operative day 1")
-
-```
-
-### Mobilising
-
-On post operative day 1 there was data on mobilisation available for `r sum(mobilising$n)` patients. Overall `r perc_mobile` % of patients were mobilising on post operative day 1. Figure 10 below demonstrates the number of patients mobilising and those that were not on post operative day 1, by month of surgery. The colour grey represents where there is missing data.
-
-```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
-
-mobile_plot  + labs(title= "Fig 10: Patient mobilisation status on post operative day 1")
-
-```
-
-### DrEaMing
-
-Drinking, eating and mobilising (DrEaMing) within 24 hours of surgery has been associated with reduced length of stay for certain surgical specialities. `r perc_dream`% of patients were DrEaMing at 24 hours. Figure 11 below demonstrates the number of patients DrEaMing and those that were not on post operative day 1, by month of surgery. (NB as noted above to be 'DrEaMing' a patient must be drinking, eating and mobilising on day 1 post operation. No data is available for drinking and eating for September and October. The result is that no patient, for these 2 months, can be DrEaMing. The LoS for these months did not change. This is a data collection issue rather than a reflection of a change to the established patient pathway.) The colour grey represents where there is missing data.
-
-```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
-
-dream_plot  + labs(title= "Fig 11: Patient DrEaMing status on post operative day 1")
-
-```
-
-\pagebreak
-
-# Pain
-
-Post operative pain impacts patient recovery and experience. One way to map the changing pain scores through the surgical pathway is using alluvial plots. The chart below demonstrates how the pain experienced by patients changes over time from day 0 through to that at discharge. This chart is populated only with the data of those patients who have pain scores at all 3 time points. 
-
-
-```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
-
-pain_alluvial
-```
-
-\pagebreak
 
 # Length of Stay
 
-Post operative length of stay has a direct impact on the number of bed days required and therefore the amount of resources need to support the pathway. In the figure below is the median length of stay for each type of arthroplasty by surgeon. The labels show the number of patients who had that type of procedure by each surgeon
-
-
-
-```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
-
-LOS
-```
-
-## Length of stay by anaesthetist
+Post operative length of stay has a direct impact on the number of bed days required and therefore the amount of resources need to support the pathway. 
 
 The figure below is the median length of stay for each type of arthroplasty by anaesthetist The labels show the number of patients who had that type of procedure by each individual
 
 
 
 ```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+source("source/times.R")
 named_LOS_anaes
 ```
 
