@@ -15,11 +15,11 @@ header-includes:
 - \renewcommand{\footrulewidth}{0.4pt}
 mainfont: Crimson
 output:
-  word_document:
-    toc: yes
-    toc_depth: '3'
   html_document:
     df_print: paged
+    toc: yes
+    toc_depth: '3'
+  word_document:
     toc: yes
     toc_depth: '3'
   pdf_document:
@@ -197,7 +197,7 @@ drink_plot  + labs(title= "Fig 8: Patient drinking status on post operative day 
 
 ### Eating
 
-On post operative day 1 there was eating data available for `r sum(eating$n)` patients. Overall `r perc_eat` % of patients were eating on post operative day 1. Figure 9 below demonstrates the number of patients eating and those that were not  on post operative day 1, by month of surgery. (NB there was a change of data collection form in September and October that removed 'eating' as an individual parameter. As such no data is available for these months. This resulted in all patients being recorded as not eating)
+On post operative day 1 there was eating data available for `r sum(eating$n)` patients. Overall `r perc_eat` % of patients were eating on post operative day 1. Figure 9 below demonstrates the number of patients eating and those that were not  on post operative day 1, by month of surgery. (NB there was a change of data collection form in September and October that removed 'eating' as an individual parameter. As such no data is available for these months. This resulted in all patients being recorded as not eating). The colour grey represents where there is missing data. 
 
 ```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
 
@@ -207,7 +207,7 @@ eat_plot  + labs(title= "Fig 9: Patient eating status on post operative day 1")
 
 ### Mobilising
 
-On post operative day 1 there was data on mobilisation available for `r sum(mobilising$n)` patients. Overall `r perc_mobile` % of patients were mobilising on post operative day 1. Figure 10 below demonstrates the number of patients mobilising and those that were not on post operative day 1, by month of surgery. 
+On post operative day 1 there was data on mobilisation available for `r sum(mobilising$n)` patients. Overall `r perc_mobile` % of patients were mobilising on post operative day 1. Figure 10 below demonstrates the number of patients mobilising and those that were not on post operative day 1, by month of surgery. The colour grey represents where there is missing data.
 
 ```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
 
@@ -217,7 +217,7 @@ mobile_plot  + labs(title= "Fig 10: Patient mobilisation status on post operativ
 
 ### DrEaMing
 
-Drinking, eating and mobilising (DrEaMing) within 24 hours of surgery has been associated with reduced length of stay for certain surgical specialities. `r perc_dream`% of patients were DrEaMing at 24 hours. Figure 11 below demonstrates the number of patients DrEaMing and those that were not on post operative day 1, by month of surgery. (NB as noted above to be 'DrEaMing' a patient must be drinking, eating and mobilising on day 1 post operation. No data is available for drinking and eating for September and October. The result is that no patient, for these 2 months, can be DrEaMing. The LoS for these months did not change. This is a data collection issue rather than a reflection of a change to the established patient pathway.)
+Drinking, eating and mobilising (DrEaMing) within 24 hours of surgery has been associated with reduced length of stay for certain surgical specialities. `r perc_dream`% of patients were DrEaMing at 24 hours. Figure 11 below demonstrates the number of patients DrEaMing and those that were not on post operative day 1, by month of surgery. (NB as noted above to be 'DrEaMing' a patient must be drinking, eating and mobilising on day 1 post operation. No data is available for drinking and eating for September and October. The result is that no patient, for these 2 months, can be DrEaMing. The LoS for these months did not change. This is a data collection issue rather than a reflection of a change to the established patient pathway.) The colour grey represents where there is missing data.
 
 ```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
 

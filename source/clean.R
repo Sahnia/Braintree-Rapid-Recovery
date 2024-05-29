@@ -34,9 +34,9 @@ audit_data <- audit_data %>%
   #mutate(date_of_surgery = as.Date(dmy(date_of_surgery))) %>% 
   #mutate(time_to_theatre = strftime(time_to_theatre, format = "%H:%M:%OS", tz = "GMT")) %>% 
   #mutate(time_on_ward = strftime(time_on_ward, format = "%H:%M:%OS", tz = "GMT")) %>% 
-  #mutate(eating_on_day_1 = ifelse(eating_on_day_1 %in% c("Yes"), TRUE, FALSE)) %>% 
-  #mutate(drinking_on_day_1 = ifelse(drinking_on_day_1 %in% c("Yes"), TRUE, FALSE)) %>% 
-  #mutate(mobilising_on_day_1 = ifelse(mobilising_on_day_1 %in% c("Yes"), TRUE, FALSE)) %>% 
+  mutate(eating_on_day_1 = ifelse(eating_on_day_1 == -1, TRUE, FALSE)) %>% 
+  mutate(drinking_on_day_1 = ifelse(drinking_on_day_1 == -1, TRUE, FALSE)) %>% 
+  mutate(mobilising_on_day_1 = ifelse(mobilising_on_day_1 == -1, TRUE, FALSE)) %>% 
   #mutate(eras_protocol = ifelse(eras_protocol %in% c("Yes"), TRUE, FALSE)) %>% 
   mutate(pain_day_0 = factor(pain_day_0, 
                              levels = c("None", "Mild", "Moderate", "Severe"),
@@ -48,7 +48,7 @@ audit_data <- audit_data %>%
   mutate(anti_emetic = ifelse(anti_emetic %in% c("Yes"), TRUE, FALSE)) %>%
   mutate(day_0_mob = ifelse(day_0_mob %in% c("Yes"), TRUE, FALSE)) %>%
   #mutate(mob_time_24h = str_replace_all(mob_time_24h, "?", "")) %>% 
-  mutate(mob_time_24h = na_if(mob_time_24h,"")) %>% 
+  mutate(mob_time_24h = na_if(mob_time_24h," ")) %>% 
   #mutate(mob_time_24h = strftime(mob_time_24h, format = "%H:%M:%OS", tz = "GMT")) %>% 
   #mutate(mob_by = factor(mob_by)) %>% 
   mutate(pain_day_1 = factor(pain_day_1, 

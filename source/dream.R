@@ -14,15 +14,17 @@ drinking <- dreaming %>%
   mutate(Perc = n/sum(n)*100) 
 
 drink_plot <-
-  ggplot(drinking, aes(x=as.Date(procedure_month), y=n, fill= drinking_on_day_1))+
+  ggplot(drinking, aes(x=as.Date(procedure_month), y=n, fill= drinking_on_day_1)) +
   geom_bar(stat="identity") +
   theme_PQIP_legend() + 
   scale_x_date(labels = date_format("%b %Y"), breaks = date_breaks("1 month")) + 
-  scale_fill_manual(breaks=c(TRUE, FALSE), values = c("#0571b0", "#ca0020"),
+  scale_fill_manual(breaks = c(TRUE, FALSE), values = c("#0571b0", "#ca0020"), 
                     labels=c("Drinking on Day 1", "Not Drinking on Day 1")) +
   guides(fill=guide_legend(title=NULL)) + 
-  scale_y_continuous(name="Number of patients")+
-  labs(x=NULL) 
+  scale_y_continuous(name="Number of patients") +
+  labs(x=NULL)
+
+
 
 eating <- dreaming %>% 
   group_by(procedure_month, eating_on_day_1) %>% 
