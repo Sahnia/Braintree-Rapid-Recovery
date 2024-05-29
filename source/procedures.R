@@ -75,6 +75,19 @@ anaes_facet <-
   scale_x_date(labels = date_format("%b %Y"), breaks = date_breaks("3 month")) +
   labs(x = "Month", y = "Number of anaesthetics performed")
 
+named_anaes_facet <-
+  ggplot(anaes, aes(x=procedure_month, y=n, group=anaethetist, fill=anaethetist)) + 
+  geom_bar(stat = "identity", width = 20) +
+  facet_wrap(~anaethetist, scales = "fixed") +
+  theme_PQIP() +
+  theme(panel.margin=unit(.05, "lines"),
+        panel.border = element_rect(color = "black", fill = NA, size = 0.5), 
+        strip.background = element_rect(color = "black", size = 0.5))+
+  scale_x_date(labels = date_format("%b %Y"), breaks = date_breaks("3 month")) +
+  labs(x = "Month", y = "Number of anaesthetics performed")
+ 
+
+
 surgeons <-
   audit_data %>% 
   select(episode_id, surgeon, procedure_month) %>%
@@ -105,8 +118,7 @@ ggplot(surgeons, aes(x=procedure_month, y=n, group=surgeon, fill=surgeon)) +
 work <- 
   audit_data %>% 
   group_by(surgeon, anaethetist) %>% 
-  summarise(n=n())%>% 
-  drop_na()
+  summarise(n=n())
   
  work_tree <-  ggplot(work, aes(area = n, fill = surgeon, label = surgeon,
                   subgroup = surgeon, subgroup2 = anaethetist)) +
@@ -115,4 +127,15 @@ work <-
   geom_treemap_subgroup2_border() +
   theme_PQIP() +
    geom_treemap_subgroup_border(colour = "white", size = 5) +
-   geom_treemap_subgroup2_border(colour = "white", size = 2)
+   geom_treemap_subgroup2_border(colour = "white", size = 2) 
+
+ 
+ named_anaes_work_tree <-  ggplot(work, aes(area = n, fill = surgeon, label = anaethetist,
+                                subgroup = surgeon, subgroup2 = anaethetist)) +
+   geom_treemap() +
+   geom_treemap_subgroup_border() +
+   geom_treemap_subgroup2_border() +
+   geom_treemap_text(colour = "white", place = "centre", grow = FALSE, reflow = TRUE, show.legend = TRUE) +
+   theme_PQIP() +
+   geom_treemap_subgroup_border(colour = "white", size = 5) +
+   geom_treemap_subgroup2_border(colour = "white", size = 2) 
